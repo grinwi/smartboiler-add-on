@@ -12,7 +12,7 @@ RUN \
 
 WORKDIR /usr/src
 
-COPY requirements.txt /usr/src/requirements
+COPY requirements.txt /usr/src/requirements.txt
 # Setup
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
