@@ -17,4 +17,4 @@ options:
   message: "Hello world..."
 schema:
   message: "str?"
-image: "grinwi/image-{arch}-smartboiler-add-on"
+image: "ghcr.io/grinwi/image-{arch}-smartboiler-add-on"
