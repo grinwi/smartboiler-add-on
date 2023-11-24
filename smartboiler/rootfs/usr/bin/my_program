@@ -1,4 +1,4 @@
 #!/bin/bash
 
 echo "All done!" > /share/example_addon_output.txt
-exec python3 -m smartboiler.control
+#exec python3 -m smartboiler.control
