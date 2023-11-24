@@ -16,4 +16,5 @@ message=$(bashio::config 'message')
 bashio::log.info "${message:="Hello World..."}"
 
 ## Run your program
-exec /usr/bin/my_program
+exec python3 -m smartboiler.control --url "http://supervisor/core/api" --key "$SUPERVISOR_TOKEN" --addon "True"
+
