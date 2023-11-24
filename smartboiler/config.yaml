@@ -1,8 +1,8 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
-name: Example add-on
-version: "1.2.0.2"
+name: Smart Boiler add-on 2.0
+version: "1.2.0.3"
 slug: smartboiler
-description: Example add-on
+description: Smart Boiler add-on 2.0
 url: "https://github.com/grinwi/smartboiler-add-on"
 arch:
   - armhf
