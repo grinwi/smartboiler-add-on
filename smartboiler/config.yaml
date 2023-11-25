@@ -18,3 +18,7 @@ options:
 schema:
   message: "str?"
 image: "ghcr.io/grinwi/image-{arch}-smartboiler-add-on"
+hassio_api: true
+hassio_role: admin
+homeassistant_api: true
+host_network: true
