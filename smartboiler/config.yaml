@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Smart Boiler add-on 2.0
-version: "0.0.2.4"
+version: "0.0.2.5"
 slug: smartboiler
 description: Smart Boiler add-on 2.0
 url: "https://github.com/grinwi/smartboiler-add-on"
@@ -71,4 +71,4 @@ schema:
   household_floor_size: int(1,)
   household_members: int(1,)
   thermostat_entity_id: str
-  logging_level: list(DEBUG|INFO|WARNING|ERROR)  
+  logging_level: list(DEBUG|INFO|WARNING|ERROR)
