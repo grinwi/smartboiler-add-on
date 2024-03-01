@@ -43,8 +43,8 @@ options:
   boiler_min_operation_tmp: 37
   one_shower_volume: 40
   boiler_watt_power: 2000
-  household_floor_size: empty
-  household_members: empty
+  household_floor_size: 100
+  household_members: 2
   thermostat_entity_id: empty
   logging_level: INFO
 schema:
