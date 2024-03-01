@@ -13,5 +13,5 @@ skforecast==0.10.1
 flask>=2.0.3
 waitress>=2.1.1
 plotly>=5.6.0
-smartboiler==0.0.1.18
+smartboiler==0.0.2.2
 influxdb
