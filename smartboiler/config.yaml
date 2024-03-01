@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Smart Boiler add-on 2.0
-version: "0.0.1.18"
+version: "0.0.2.3"
 slug: smartboiler
 description: Smart Boiler add-on 2.0
 url: "https://github.com/grinwi/smartboiler-add-on"
@@ -19,49 +19,56 @@ hassio_api: true
 hassio_role: admin
 homeassistant_api: true
 host_network: true
+environment:
+  OPTIONS_PATH: '/data/options.json'
+  DATA_PATH: '/data/'
 options:
-  hass_opts:
-    - hass_url: empty
-    - longlived_token: empty
-  influxdb:
-    - influxdb_host: empty
-    - influxdb_port: 8086
-    - influxdb_user: empty
-    - influxdb_pass: empty
-  boiler:
-    - boiler_entidy_id: empty
-    - boiler_socket_id: empty
-    - boiler_volume: 120
-    - boiler_set_tmp: 60
-    - boiler_min_operation_tmp: 37
-    - one_shower_volume: 40
-    - boiler_watt_power: 2000
-  household:
-    - household_floor_size: empty
-    - household_members: empty
-  thermostat:
-    - thermostat_entity_id: empty
+  hass_url: empty
+  longlived_token: empty
+  influxdb_host: empty
+  influxdb_port: 8086
+  influxdb_user: empty
+  influxdb_pass: empty
+  influxdb_name: empty
+  boiler_entidy_id: empty
+  boiler_socket_id: empty
+  boiler_case_tmp_entity_id: empty
+  boiler_case_tmp_measurement: empty
+  boiler_water_flow_entity_id: empty
+  boiler_water_flow_measurement: empty
+  boiler_water_temp_entity_id: empty
+  boiler_water_temp_measurement: empty
+  boiler_volume: 120
+  boiler_set_tmp: 60
+  boiler_min_operation_tmp: 37
+  one_shower_volume: 40
+  boiler_watt_power: 2000
+  household_floor_size: empty
+  household_members: empty
+  thermostat_entity_id: empty
   logging_level: INFO
 schema:
-  hass_opts:
-    - hass_url: str
-    - longlived_token: str
-  influxdb:
-    - influxdb_host: str
-    - influxdb_port: int(1,)
-    - influxdb_user: str
-    - influxdb_pass: str
-  boiler:
-  - boiler_entidy_id: str
-  - boiler_socket_id: str
-  - boiler_volume: int(1,)
-  - boiler_set_tmp: int(1,)
-  - boiler_min_operation_tmp: int(1,)
-  - one_shower_volume: int(1,)
-  - boiler_watt_power: int(1,)
-  household:
-    - household_floor_size: int(1,)
-    - household_members: int(1,)
-  thermostat:
-    - thermostat_entity_id: str
+  hass_url: str
+  longlived_token: str
+  influxdb_host: str
+  influxdb_port: int(1,)
+  influxdb_user: str
+  influxdb_pass: str
+  influxdb_name: str
+  boiler_entidy_id: str
+  boiler_socket_id: str
+  boiler_case_tmp_entity_id: str
+  boiler_case_tmp_measurement: str
+  boiler_water_flow_entity_id: str
+  boiler_water_flow_measurement: str
+  boiler_water_temp_entity_id: str
+  boiler_water_temp_measurement: str
+  boiler_volume: int(1,)
+  boiler_set_tmp: int(1,)
+  boiler_min_operation_tmp: int(1,)
+  one_shower_volume: int(1,)
+  boiler_watt_power: int(1,)
+  household_floor_size: int(1,)
+  household_members: int(1,)
+  thermostat_entity_id: str
   logging_level: list(DEBUG|INFO|WARNING|ERROR)  
