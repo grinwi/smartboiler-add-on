@@ -11,6 +11,7 @@ pyyaml>=5.4.1
 tables==3.7.0
 skforecast==0.10.1
 flask>=2.0.3
+tensorflow
 waitress>=2.1.1
 plotly>=5.6.0
 smartboiler>=0.0.2.8
