@@ -24,7 +24,7 @@ environment:
   DATA_PATH: '/data/'
 options:
   hass_url: empty
-  longlived_token: empty
+  long_lived_token: empty
   influxdb_host: empty
   influxdb_port: 8086
   influxdb_user: empty
@@ -49,7 +49,7 @@ options:
   logging_level: INFO
 schema:
   hass_url: str
-  longlived_token: str
+  long_lived_token: str
   influxdb_host: str
   influxdb_port: int(1,)
   influxdb_user: str
