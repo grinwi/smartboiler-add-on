@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Smart Boiler add-on 2.0
-version: "0.0.2.9.5"
+version: "0.0.2.9.6"
 slug: smartboiler
 description: Smart Boiler add-on 2.0
 url: "https://github.com/grinwi/smartboiler-add-on"
@@ -23,6 +23,7 @@ environment:
   OPTIONS_PATH: '/data/options.json'
   DATA_PATH: '/data/'
 options:
+
   hass_url: empty
   long_lived_token: empty
   influxdb_host: empty
@@ -32,6 +33,7 @@ options:
   influxdb_name: empty
   boiler_entidy_id: empty
   boiler_socket_id: empty
+  boiler_socket_power_id: empty
   boiler_case_tmp_entity_id: empty
   boiler_case_tmp_measurement: empty
   boiler_water_flow_entity_id: empty
@@ -57,6 +59,7 @@ schema:
   influxdb_name: str
   boiler_entidy_id: str
   boiler_socket_id: str
+  boiler_socket_power_id: str
   boiler_case_tmp_entity_id: str
   boiler_case_tmp_measurement: str
   boiler_water_flow_entity_id: str
