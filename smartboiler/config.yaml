@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Smart Boiler add-on 2.0
-version: "0.0.2.9.6"
+version: "0.0.2.9.7"
 slug: smartboiler
 description: Smart Boiler add-on 2.0
 url: "https://github.com/grinwi/smartboiler-add-on"
