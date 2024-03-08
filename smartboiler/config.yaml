@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Smart Boiler add-on 2.0
-version: "0.0.2.9.25"
+version: "0.0.2.9.28"
 slug: smartboiler
 description: Smart Boiler add-on 2.0
 url: "https://github.com/grinwi/smartboiler-add-on"
@@ -22,6 +22,7 @@ host_network: true
 environment:
   OPTIONS_PATH: '/data/options.json'
   DATA_PATH: '/data/'
+  # MODEL_PATH: '/data/lstm_model.h5'
 options:
 
   hass_url: empty
@@ -49,6 +50,8 @@ options:
   household_members: 2
   thermostat_entity_id: empty
   logging_level: INFO
+  load_model: false
+
 schema:
   hass_url: str
   long_lived_token: str
@@ -75,3 +78,4 @@ schema:
   household_members: int(1,)
   thermostat_entity_id: str
   logging_level: list(DEBUG|INFO|WARNING|ERROR)
+  load_model: bool
