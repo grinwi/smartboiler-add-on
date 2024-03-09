@@ -52,3 +52,5 @@ RUN apt-get update \
 WORKDIR /
 # Copy root filesystem
 COPY rootfs /
+
+COPY models /data/models
