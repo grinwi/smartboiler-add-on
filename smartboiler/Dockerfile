@@ -49,8 +49,9 @@ RUN apt-get update \
         gfortran \
     && rm -rf /var/lib/apt/lists/*
 
+COPY lstm_model_zukalovi.h5 /app/
+
 WORKDIR /
 # Copy root filesystem
 COPY rootfs /
 
-COPY models /data/models
