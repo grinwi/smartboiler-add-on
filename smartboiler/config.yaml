@@ -1,14 +1,14 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
-name: Smart Boiler add-on 2.0
-version: "0.0.2.9.32.12"
+name: Smart Boiler add-on
+version: "0.0.2.9.32.13"
 slug: smartboiler
-description: Smart Boiler add-on 2.0
+description: Water heating management for Home Assistant with machine learning
 url: "https://github.com/grinwi/smartboiler-add-on"
 arch:
   - aarch64
-  # - armhf
-  # - armv7
-  # - amd64
+  - armhf
+  - armv7
+  - amd64
   - i386
 init: false
 map:
