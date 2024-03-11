@@ -30,7 +30,7 @@ optim_conf:
   def_end_timestep: # timesteps
   - 0
   - 0
-  treat_def_as_semi_cont: # treat this variable as semi continuous 
+  treat_def_as_semi_cont: # treat this variable as semi continuous
   - True
   - True
   set_def_constant: # set as a constant fixed value variable with just one startup for each 24h
@@ -38,7 +38,7 @@ optim_conf:
   - False
   weather_forecast_method: 'scrapper' # options are 'scrapper', 'csv', 'list', 'solcast' and 'solar.forecast'
   load_forecast_method: 'naive' # options are 'csv' to load a custom load forecast from a CSV file or 'naive' for a persistance model
-  load_cost_forecast_method: 'hp_hc_periods' # options are 'hp_hc_periods' for peak and non-peak hours contracts and 'csv' to load custom cost from CSV file 
+  load_cost_forecast_method: 'hp_hc_periods' # options are 'hp_hc_periods' for peak and non-peak hours contracts and 'csv' to load custom cost from CSV file
   list_hp_periods: # list of different tariff periods (only needed if load_cost_forecast_method='hp_hc_periods')
   - period_hp_1:
     - start: '02:54'
@@ -72,7 +72,7 @@ plant_conf:
   surface_azimuth: # The azimuth angle of your PV installation
   - 205
   modules_per_string: # The number of modules per string
-  - 16 
+  - 16
   strings_per_inverter: # The number of used strings per inverter
   - 1
   Pd_max: 1000 # If your system has a battery (set_use_battery=True), the maximum discharge power in Watts
