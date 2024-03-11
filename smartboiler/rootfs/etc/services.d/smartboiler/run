@@ -5,6 +5,7 @@
 # ==============================================================================
 
 
-## Run your program
-exec python3 -m smartboiler.controller
+
+# exec python3 -m smartboiler.controller
+exec /usr/bin/my_program
 
