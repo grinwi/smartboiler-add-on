@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Smart Boiler add-on
-version: "0.0.2.10.1.24"
+version: "0.0.2.10.1.25"
 slug: smartboiler
 description: Water heating management for Home Assistant with machine learning
 url: "https://github.com/grinwi/smartboiler-add-on"
@@ -41,6 +41,8 @@ options:
   boiler_volume: 120
   boiler_set_tmp: 60
   boiler_min_operation_tmp: 37
+  average_boiler_surroundings_temp: 20
+  boiler_case_max_tmp: 40
   one_shower_volume: 40
   boiler_watt_power: 2000
   household_floor_size: 100
@@ -69,6 +71,8 @@ schema:
   boiler_volume: int(1,)
   boiler_set_tmp: int(1,)
   boiler_min_operation_tmp: int(1,)
+  average_boiler_surroundings_temp: int(1,)
+  boiler_case_max_tmp: int(1,)
   one_shower_volume: int(1,)
   boiler_watt_power: int(1,)
   household_floor_size: int(1,)
