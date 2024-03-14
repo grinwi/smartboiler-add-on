@@ -50,6 +50,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 COPY lstm_model_zukalovi.h5 /app/
+COPY lstm_model_formanokvi.h5 /app/
 
 WORKDIR /
 # Copy root filesystem
