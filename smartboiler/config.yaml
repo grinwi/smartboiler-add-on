@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Smart Boiler add-on
-version: "0.0.3.0.0.2"
+version: "0.0.3.0.0.3"
 slug: smartboiler
 description: Water heating management for Home Assistant with machine learning
 url: "https://github.com/grinwi/smartboiler-add-on"
@@ -58,8 +58,8 @@ options:
 
 schema:
   hass_url: str
-  home_longitude: int(0,)
-  home_latitude: int(0,)
+  home_longitude: float(0,)
+  home_latitude: float(0,)
   device_tracker_entity_id: str
   long_lived_token: str
   influxdb_host: str
