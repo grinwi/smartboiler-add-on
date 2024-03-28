@@ -15,3 +15,5 @@ waitress>=2.1.1
 plotly>=5.6.0
 smartboiler>=0.0.2.10.1.41
 influxdb
+geopy
+haversine
