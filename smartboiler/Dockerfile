@@ -49,7 +49,7 @@ RUN apt-get update \
         gfortran \
     && rm -rf /var/lib/apt/lists/*
 
-COPY model_zuka.pkl /app/
+COPY model_zuka.keras /app/
 COPY scaler_zuka.pkl /app/
 
 WORKDIR /
