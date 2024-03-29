@@ -52,6 +52,9 @@ RUN apt-get update \
 COPY model_zuka.keras /app/
 COPY scaler_zuka.pkl /app/
 
+COPY model_forma.keras /app/
+COPY scaler_forma.pkl /app/
+
 WORKDIR /
 # Copy root filesystem
 COPY rootfs /
