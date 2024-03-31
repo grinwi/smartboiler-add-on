@@ -2,6 +2,7 @@ beautifulsoup4>=4.9.3
 geopy
 haversine
 influxdb
+keras==2.15.0
 numpy>=1.22.2
 pandas>=1.4.1
 plotly>=5.6.0
