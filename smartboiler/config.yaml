@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Smart Boiler add-on
-version: "0.0.3.0.0.6.4"
+version: "0.0.3.0.0.6.5"
 slug: smartboiler
 description: Water heating management for Home Assistant with machine learning
 url: "https://github.com/grinwi/smartboiler-add-on"
@@ -57,7 +57,7 @@ options:
   logging_level: INFO
   load_model: false
   hdo: false
-  has_fotovotaics: false
+  has_fotovoltaics: false
   fve_solax_sn: empty
   fve_solax_token: empty
 
@@ -97,6 +97,6 @@ schema:
   logging_level: list(DEBUG|INFO|WARNING|ERROR)
   load_model: bool
   hdo: bool
-  has_fotovotaics: bool
+  has_fotovoltaics: bool
   fve_solax_sn: str
   fve_solax_token: str
