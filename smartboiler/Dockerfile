@@ -34,7 +34,7 @@ RUN apt-get update \
     #     libatlas-base-dev \
     # && ln -s /usr/include/hdf5/serial /usr/include/hdf5/include \
     # && export HDF5_DIR=/usr/include/hdf5 \
-    && pip3 install --extra-index-url=https://www.piwheels.org/simple --no-cache-dir -U setuptools wheel \
+    # && pip3 install --extra-index-url=https://www.piwheels.org/simple --no-cache-dir -U setuptools wheel \
     && pip3 install --extra-index-url=https://www.piwheels.org/simple --no-cache-dir -r requirements.txt \
     # && apt-get purge -y --auto-remove \
     #     python3-pip \
@@ -47,7 +47,7 @@ RUN apt-get update \
     #     libnetcdf-dev \
     #     pkg-config \
     #     gfortran \
-    && rm -rf /var/lib/apt/lists/*
+    # && rm -rf /var/lib/apt/lists/*
 
 COPY model_zuka.keras /app/
 COPY scaler_zuka.pkl /app/
