@@ -26,14 +26,14 @@ RUN apt-get update \
         coinor-cbc \
         libglpk-dev \
         glpk-utils \
-        # libhdf5-dev \
-        # libhdf5-serial-dev \
+        libhdf5-dev \
+        libhdf5-serial-dev \
         pkg-config \
-        # python3-h5py \
+        python3-h5py \
         gfortran \
         libatlas-base-dev \
-    # && ln -s /usr/include/hdf5/serial /usr/include/hdf5/include \
-    # && export HDF5_DIR=/usr/include/hdf5 \
+    && ln -s /usr/include/hdf5/serial /usr/include/hdf5/include \
+    && export HDF5_DIR=/usr/include/hdf5 \
     && pip3 install --extra-index-url=https://www.piwheels.org/simple --no-cache-dir -U setuptools wheel \
     && pip3 install --extra-index-url=https://www.piwheels.org/simple --no-cache-dir -r requirements.txt \
     && apt-get purge -y --auto-remove \
@@ -41,8 +41,8 @@ RUN apt-get update \
         python3-dev \
         git \
         build-essential \
-        # libhdf5-dev \
-        # libhdf5-serial-dev \
+        libhdf5-dev \
+        libhdf5-serial-dev \
         #netcdf-bin \
         #libnetcdf-dev \
         pkg-config \
