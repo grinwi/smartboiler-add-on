@@ -40,7 +40,7 @@ RUN apt-get update \
         python3-pip \
         python3-dev \
         git \
-        build-essential \
+        build-essential 
     #     libhdf5-dev \
     #     libhdf5-serial-dev \
     #     netcdf-bin \
