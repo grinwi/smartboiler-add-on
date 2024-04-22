@@ -29,7 +29,7 @@ RUN apt-get update \
         libhdf5-dev \
         libhdf5-serial-dev \
         pkg-config \
-        python3-h5py \
+        # python3-h5py \
         gfortran \
         libatlas-base-dev \
     && ln -s /usr/include/hdf5/serial /usr/include/hdf5/include \
