@@ -15,13 +15,13 @@ WORKDIR /usr/src
 COPY requirements.txt /usr/src/requirements.txt
 # Setup
 RUN apt-get update \
-    # && apt-get install -y --no-install-recommends \
+    && apt-get install -y --no-install-recommends \
     #     libffi-dev \
-    #     python3 \
-    #     python3-pip \
-    #     python3-dev \
-    #     git \
-    #     build-essential \
+        python3 \
+        python3-pip \
+        python3-dev \
+        git \
+        build-essential \
     #     coinor-libcbc-dev \
     #     coinor-cbc \
     #     libglpk-dev \
@@ -36,11 +36,11 @@ RUN apt-get update \
     # && export HDF5_DIR=/usr/include/hdf5 \
     # && pip3 install --extra-index-url=https://www.piwheels.org/simple --no-cache-dir -U setuptools wheel \
     && pip3 install --extra-index-url=https://www.piwheels.org/simple --no-cache-dir -r requirements.txt \
-    # && apt-get purge -y --auto-remove \
-    #     python3-pip \
-    #     python3-dev \
-    #     git \
-    #     build-essential \
+    && apt-get purge -y --auto-remove \
+        python3-pip \
+        python3-dev \
+        git \
+        build-essential \
     #     libhdf5-dev \
     #     libhdf5-serial-dev \
     #     netcdf-bin \
