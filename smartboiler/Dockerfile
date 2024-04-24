@@ -21,7 +21,8 @@ RUN apt-get update \
         python3-pip \
         python3-dev \
         git \
-        python3-distutils \
+        setuptools \
+        python3.9-distutils \
         build-essential \
         coinor-libcbc-dev \
         coinor-cbc \
