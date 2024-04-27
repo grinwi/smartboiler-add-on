@@ -1,7 +1,6 @@
 numpy
 h5py==3.10.0
 pandas
-scipy
 pvlib>=0.10.1
 protobuf>=3.0.0
 pytz
