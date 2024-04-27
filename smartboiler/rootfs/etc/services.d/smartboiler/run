@@ -7,5 +7,4 @@
 
 
 exec python3 -m smartboiler.controller
-# exec /usr/bin/my_program
 
