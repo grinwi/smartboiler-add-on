@@ -52,10 +52,10 @@ RUN apt-get update \
         gfortran \
     && rm -rf /var/lib/apt/lists/*
 
-COPY model_zuka.keras /app/
+COPY model_zuka.weights.h5 /app/
 COPY scaler_zuka.pkl /app/
 
-COPY model_form.keras /app/
+COPY model_form.weights.h5 /app/
 COPY scaler_form.pkl /app/
 
 WORKDIR /
