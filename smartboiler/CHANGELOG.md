@@ -1,15 +1,11 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
 
-## 1.2.0
+## 1.0
+The very first version of the add-on with the smartboiler. With this you can train your own neural network for prediction of the consumption of the hot water from boiler and optimalize its heating.
 
-- Add an apparmor profile
-- Update to 3.15 base image with s6 v3
-- Add a sample script to run as service and constrain in aa profile
+# TODO
+- variable number of variables :-)
+- direct integration of boiler switches and Google Calendar
+- calculating with the spot price of the energy on the market
 
-## 1.1.0
 
-- Updates
-
-## 1.0.0
-
-- Initial release
