@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Smart Boiler add-on
-version: "0.0.3.0.0.7.16.13.5"
+version: "0.0.3.0.0.7.16.15"
 slug: smartboiler-addon
 description: Water heating management for Home Assistant with machine learning
 url: "https://github.com/grinwi/smartboiler-add-on"
@@ -21,7 +21,6 @@ host_network: true
 environment:
   OPTIONS_PATH: '/data/options.json'
   DATA_PATH: '/data/'
-  MODEL_PATH: '/app/lstm_model_zukalovi.keras'
 options:
 
   hass_url: empty
