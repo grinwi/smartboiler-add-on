@@ -1,4 +1,6 @@
 numpy
+keras
+tensorflow
 h5py==3.10.0
 pandas
 pvlib>=0.10.1
