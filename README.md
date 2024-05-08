@@ -125,8 +125,12 @@ captive_portal:
     
 ```
 
+### Buy me a coffee
+<a href="https://buymeacoffee.com/smartboiler" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
 
-### [Smartboiler add-on](./example)
+
+
+### Smartboiler add-on
 
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]
