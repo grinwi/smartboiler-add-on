@@ -3,7 +3,7 @@
 # SMART BOILER
 This is a README for the Smart Boiler application, used to decrease energy usage for heating water in a boiler. This is achieved by learning household consumption trends and heating water above the emergency temperature just before predicted consumption.
 
-Link to the GitHub repository: <https://github.com/grinwi/smart_boiler>.
+Link to the GitHub repository: <https://github.com/grinwi/smartboiler>.
 
 ## What's it all about?
 This project was undertaken as a master's thesis at FIT VUT Brno. 
