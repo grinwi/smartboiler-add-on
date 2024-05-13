@@ -61,17 +61,13 @@ influxdb_port: 8086
 influxdb_user: username for InfluxDB
 influxdb_pass: password for InfluxDB
 influxdb_name: name of the InfluxDB database
-boiler_case_tmp_measurement: measurement of the thermometer located in the boiler case
 boiler_water_flow_entity_id: entity ID of the flow sensor
-boiler_water_flow_measurement: measurement of the flow sensor
 boiler_water_temp_entity_id: entity ID of the outlet water temperature
 boiler_water_temp_entity_id_2: entity ID of any second outlet water temperature sensor
-boiler_water_temp_measurement: outlet water temperature measurement
 boiler_volume: Boiler volume in liters
 boiler_set_tmp: set temperature on the boiler thermostat - min 60 deg.
 boiler_min_operation_tmp: minimum water temperature in the boiler during operation
 average_boiler_surroundings_temp: average boiler surroundings temperature for conversion
-boiler_case_max_tmp: maximum measured temperature in the boiler case
 boiler_watt_power: boiler power
 logging_level: logging level
 load_model: load pre-trained model
