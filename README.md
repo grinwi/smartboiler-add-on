@@ -23,7 +23,7 @@ Another requirement is a Home Assistant instance running in the required househo
 ![Example of the sensor used at a boiler](schema.png "Schema of the boiler sensor")
 
 
-Users can also utilize their Google Calendar to turn off the heating, for example, when they are on holiday. Another function using the calendar is heating to a needed temperature when unusually high consumption is expected. This can be achieved by copying Google calendar API token as token.json to ``` /app ``` folder of the Add-On retrieved by this manual: <https://developers.google.com/calendar/api/guides/overview>
+Users can also utilize their Google Calendar to turn off the heating, for example, when they are on holiday. Another function using the calendar is heating to a needed temperature when unusually high consumption is expected. This can be achieved by copying Google calendar API token as ```token.json``` to ```/app``` folder of the Add-On retrieved by this manual: <https://developers.google.com/calendar/api/guides/overview>
 
 The Home Assistant Add-On repository can be found at this address: <https://github.com/grinwi/smartboiler-add-on>.
 
