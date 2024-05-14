@@ -51,6 +51,7 @@ After successful installation, you need to fill in the household information in 
 ```
 shelly_ip: IP address of the Shelly socket
 boiler_socket_id: entity_id of the boiler socket (shelly)
+data_measurement_date_start: date of start measuring data. YYYY-MM-DD
 home_longitude: longitude of the household
 home_latitude: latitude of the household
 model_type: type of model - larger or smaller household
