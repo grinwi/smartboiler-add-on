@@ -87,4 +87,4 @@ This can then be copied into the add-on directory using Portainer: <https://comm
 
 You can then just add events to the calendar with 
 - the string ``#off`` in the name when the water in the boiler will not be heated for the duration of the event,
-- with the string ``boiler heat up at TEMPERATURE_CELSIUS degrees``, where the water in the boiler will be heated to ``TEMPERATURE_CELSIUS`` for the duration of the event.
+- with the string ``heat water at TEMPERATURE_CELSIUS degrees``, where the water in the boiler will be heated to ``TEMPERATURE_CELSIUS`` for the duration of the event.
