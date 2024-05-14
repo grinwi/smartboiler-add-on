@@ -9,6 +9,7 @@ keras==2.15.0
 numpy
 pandas
 pytz
+scikit-learn==1.3.2
 requests
 scipy
 smartboiler
