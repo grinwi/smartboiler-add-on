@@ -10,6 +10,6 @@ numpy
 pandas
 pytz
 requests
-smartboiler==1.2
+smartboiler==1.3.2
 skforecast>=0.10.1
 tensorflow==2.15.0
