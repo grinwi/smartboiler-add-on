@@ -1,0 +1,19 @@
+# Gitleaks configuration for the smartboiler add-on repo.
+# Docs: https://github.com/gitleaks/gitleaks#configuration
+
+title = "smartboiler-add-on gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Known safe patterns in this repo"
+regexes = [
+  # Placeholder values in config.yaml options are not secrets
+  '''empty''',
+]
+paths = [
+  # DOCS and README may reference example values
+  '''DOCS\.md''',
+  '''README\.md''',
+]
