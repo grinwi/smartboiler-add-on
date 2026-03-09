@@ -1,2 +1,21 @@
 .DS_Store
+
+# ── Security: never commit secrets ──────────────────────────────────────────
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+*credentials*.json
+token.json
+token.pickle
+client_secret*.json
+secrets.yaml
+secrets.json
+api.token
+influx-configs
+# ─────────────────────────────────────────────────────────────────────────────
+
 smartboiler/credentials_zuka.json

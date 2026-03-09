@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Smart Boiler add-on
-version: "1.1"
+version: "1.2"
 slug: smartboiler
 description: Water heating management for Home Assistant with machine learning
 url: "https://github.com/grinwi/smartboiler-add-on"
@@ -11,8 +11,8 @@ init: false
 map:
   - share:rw
   - config:rw
-image: "ghcr.io/grinwi/image-{arch}-smartboiler-add-on"
 hassio_api: true
+image: "ghcr.io/grinwi/image-{arch}-smartboiler-add-on"
 hassio_role: admin
 homeassistant_api: true
 host_network: true
@@ -29,6 +29,7 @@ options:
   home_latitude: empty
   device_tracker_entity_id: empty
   device_tracker_entity_id_2: empty
+  weather_entity_id: weather.home
 
   influxdb_host: empty
   influxdb_port: 8086
@@ -69,6 +70,7 @@ schema:
   home_latitude: float(0,)
   device_tracker_entity_id: str
   device_tracker_entity_id_2: str
+  weather_entity_id: str
 
   influxdb_host: str
   influxdb_port: int(1,)
