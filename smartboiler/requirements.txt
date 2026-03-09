@@ -5,7 +5,7 @@ google-auth-oauthlib
 haversine
 h5py==3.10.0
 influxdb
-keras==2.15.0
+keras==3.13.2
 numpy
 pandas
 pytz
