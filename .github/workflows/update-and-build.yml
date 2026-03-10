@@ -2,8 +2,7 @@ name: Update library version
 
 # Triggered by the smartboiler library repo after a successful PyPI publish.
 # Bumps the pinned version in requirements.txt and config.yaml, then commits
-# to main. The existing builder.yaml picks up the changed files and builds
-# + pushes the Docker images automatically.
+# to main using a PAT so the push triggers the validate + build workflows.
 
 on:
   repository_dispatch:
@@ -11,7 +10,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'smartboiler library version (e.g. 1.3)'
+        description: 'smartboiler library version (e.g. 2.0.0)'
         required: true
 
 jobs:
@@ -21,7 +20,13 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout using PAT so the push triggers downstream workflows
+        uses: actions/checkout@v4
+        with:
+          # GITHUB_TOKEN pushes are blocked from triggering other workflows.
+          # A PAT push is treated as a regular user push and fires validate + build.
+          # Add a secret named GH_PAT (classic PAT with repo scope) to this repo.
+          token: ${{ secrets.GH_PAT }}
 
       - name: Resolve version
         id: resolve
@@ -35,7 +40,7 @@ jobs:
 
       - name: Update smartboiler pin in requirements.txt
         run: |
-          sed -i "s/^smartboiler==.*/smartboiler==${{ steps.resolve.outputs.version }}/" smartboiler/requirements.txt
+          sed -i "s|^smartboiler.*|smartboiler==${{ steps.resolve.outputs.version }}|" smartboiler/requirements.txt
 
       - name: Update version in config.yaml
         run: |
@@ -47,8 +52,47 @@ jobs:
           git config user.name "github-actions[bot]"
           git add smartboiler/requirements.txt smartboiler/config.yaml
           if git diff --staged --quiet; then
-            echo "No version change to commit."
+            echo "No version change to commit — skipping."
             exit 0
           fi
           git commit -m "chore: bump smartboiler library to ${{ steps.resolve.outputs.version }}"
           git push
+
+  # Run validation inline as well so we get immediate feedback in this workflow run,
+  # independent of whether the push-triggered validate.yml fires correctly.
+  validate-inline:
+    name: Validate add-on (inline)
+    needs: update-versions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Checkout the commit that was just pushed
+          ref: main
+
+      - name: Install PyYAML
+        run: pip install pyyaml
+
+      - name: Check config.yaml is valid
+        run: |
+          python - <<'EOF'
+          import yaml, sys, pathlib
+
+          config_path = pathlib.Path("smartboiler/config.yaml")
+          with config_path.open() as f:
+              cfg = yaml.safe_load(f)
+
+          required_keys = ["name", "version", "slug", "description", "arch", "options", "schema"]
+          missing = [k for k in required_keys if k not in cfg]
+          if missing:
+              print(f"ERROR: config.yaml is missing required keys: {missing}")
+              sys.exit(1)
+
+          print(f"config.yaml OK — add-on '{cfg['name']}' v{cfg['version']}")
+          EOF
+
+      - name: Lint Dockerfile (hadolint)
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: smartboiler/Dockerfile
+          ignore: DL3008,DL3013
