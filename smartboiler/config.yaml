@@ -1,8 +1,8 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Smart Boiler add-on
-version: "1.3.2"
+version: "2.0.0"
 slug: smartboiler
-description: Water heating management for Home Assistant with machine learning
+description: Intelligent water heating management with rolling histogram prediction, spot price integration, and greedy scheduling
 url: "https://github.com/grinwi/smartboiler-add-on"
 arch:
   - aarch64
@@ -15,87 +15,86 @@ hassio_api: true
 image: "ghcr.io/grinwi/image-{arch}-smartboiler-add-on"
 hassio_role: admin
 homeassistant_api: true
-host_network: true
+host_network: false
+ingress: true
+ingress_port: 8099
 environment:
   OPTIONS_PATH: '/data/options.json'
   DATA_PATH: '/data/'
+
+# ── Required ──────────────────────────────────────────────────────────────
 options:
-  shelly_ip: empty
-  boiler_switch_id: empty
+  # Boiler switch (required)
+  boiler_switch_entity_id: empty
 
-  data_measurement_date_start: empty
+  # Boiler power meter — enables HDO learning and Level 2 temp estimation
+  boiler_power_entity_id: empty
 
-  home_longitude: empty
-  home_latitude: empty
-  device_tracker_entity_id: empty
-  device_tracker_entity_id_2: empty
-  weather_entity_id: weather.home
-
-  influxdb_host: empty
-  influxdb_port: 8086
-  influxdb_user: empty
-  influxdb_pass: empty
-  influxdb_name: empty
-
+  # Temperature sensors — the add-on uses the best available
+  # Level 1 (best): direct NTC probe inside thermostat pocket
+  boiler_direct_tmp_entity_id: empty
+  # Level 3 (fallback): external case temperature sensor
   boiler_case_tmp_entity_id: empty
+  boiler_case_max_tmp: 40
 
+  # Water consumption sensors (optional, improve accuracy)
   boiler_water_flow_entity_id: empty
   boiler_water_temp_entity_id: empty
-  boiler_water_temp_entity_id_2: empty
+
+  # Boiler physical parameters
   boiler_volume: 120
   boiler_set_tmp: 60
   boiler_min_operation_tmp: 37
-  average_boiler_surroundings_temp: 20
-  boiler_case_max_tmp: 40
   boiler_watt_power: 2000
-  
+  average_boiler_surroundings_temp: 20
+
+  # ── Presence tracking ─────────────────────────────────────────────────
+  # Comma-separated list of person.* or device_tracker.* entity IDs
+  person_entity_ids: empty
+
+  # ── Solar PV (optional) ───────────────────────────────────────────────
+  # Entity reporting surplus PV power available for heating (W, positive = surplus)
+  pv_surplus_entity_id: empty
+
+  # ── Electricity tariff ────────────────────────────────────────────────
+  has_spot_price: false
+  # Country code for energy-charts.info API: CZ, SK, AT, DE, PL, HU
+  spot_price_region: CZ
+
+  # ── HDO (ripple control) ──────────────────────────────────────────────
+  hdo: false
+  # Optional: explicit blocked hours string, e.g. "22:00-06:00,13:00-15:00"
+  # Leave empty to use auto-detection from power sensor
+  hdo_explicit_schedule: empty
+
+  # ── Prediction / scheduling ───────────────────────────────────────────
+  # How conservatively to predict consumption: low (p50) / medium (p75) / high (p90)
+  prediction_conservatism: medium
+  # Minimum days of data required before ML predictions are used
+  min_training_days: 30
+
+  # ── System ────────────────────────────────────────────────────────────
   logging_level: INFO
 
-  load_model: false
-  model_type: bigger_household
-  learning: true
-
-  hdo: false
-
-  has_fotovoltaics: false
-  fve_solax_sn: empty
-  fve_solax_token: empty
-
 schema:
-  shelly_ip: str
-  boiler_switch_id: str
-  data_measurement_date_start: match(^\d{4}-\d{2}-\d{2}$)
-
-  home_longitude: float(0,)
-  home_latitude: float(0,)
-  device_tracker_entity_id: str
-  device_tracker_entity_id_2: str
-  weather_entity_id: str
-
-  influxdb_host: str
-  influxdb_port: int(1,)
-  influxdb_user: str
-  influxdb_pass: str
-  influxdb_name: str
-
+  boiler_switch_entity_id: str
+  boiler_power_entity_id: str
+  boiler_direct_tmp_entity_id: str
   boiler_case_tmp_entity_id: str
+  boiler_case_max_tmp: int(1,)
   boiler_water_flow_entity_id: str
   boiler_water_temp_entity_id: str
-  boiler_water_temp_entity_id_2: str
   boiler_volume: int(1,)
   boiler_set_tmp: int(1,)
   boiler_min_operation_tmp: int(1,)
-  average_boiler_surroundings_temp: int(1,)
-  boiler_case_max_tmp: int(1,)
   boiler_watt_power: int(1,)
-
-  logging_level: list(DEBUG|INFO|WARNING|ERROR)
-
-  load_model: bool
-  model_type: list(bigger_household|smaller_household)
-  learning: bool
-
+  average_boiler_surroundings_temp: int(1,)
+  person_entity_ids: str
+  pv_surplus_entity_id: str
+  has_spot_price: bool
+  spot_price_region: list(CZ|SK|AT|DE|PL|HU|FR|IT|ES)
   hdo: bool
-  has_fotovoltaics: bool
-  fve_solax_sn: str
-  fve_solax_token: str
+  hdo_explicit_schedule: str
+  prediction_conservatism: list(low|medium|high)
+  min_training_days: int(1,)
+  logging_level: list(DEBUG|INFO|WARNING|ERROR)

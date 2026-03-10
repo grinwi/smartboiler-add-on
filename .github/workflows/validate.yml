@@ -1,0 +1,50 @@
+name: Validate add-on
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  config:
+    name: Validate config.yaml
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install PyYAML
+        run: pip install pyyaml
+
+      - name: Check config.yaml is valid YAML
+        run: |
+          python - <<'EOF'
+          import yaml, sys, pathlib
+
+          config_path = pathlib.Path("smartboiler/config.yaml")
+          if not config_path.exists():
+              print(f"ERROR: {config_path} not found")
+              sys.exit(1)
+
+          with config_path.open() as f:
+              cfg = yaml.safe_load(f)
+
+          required_keys = ["name", "version", "slug", "description", "arch", "options", "schema"]
+          missing = [k for k in required_keys if k not in cfg]
+          if missing:
+              print(f"ERROR: config.yaml is missing required keys: {missing}")
+              sys.exit(1)
+
+          print(f"config.yaml OK — add-on '{cfg['name']}' v{cfg['version']}")
+          EOF
+
+  dockerfile:
+    name: Lint Dockerfile (hadolint)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: smartboiler/Dockerfile
+          ignore: DL3008,DL3013
