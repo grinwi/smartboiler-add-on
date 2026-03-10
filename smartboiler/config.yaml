@@ -10,14 +10,12 @@ arch:
 init: false
 map:
   - share:rw
-  - config:rw
+  - homeassistant_config:rw
 hassio_api: true
 image: "ghcr.io/grinwi/image-{arch}-smartboiler-add-on"
 hassio_role: admin
 homeassistant_api: true
-host_network: false
 ingress: true
-ingress_port: 8099
 environment:
   OPTIONS_PATH: '/data/options.json'
   DATA_PATH: '/data/'

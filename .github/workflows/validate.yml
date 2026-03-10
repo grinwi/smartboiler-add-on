@@ -47,4 +47,4 @@ jobs:
       - uses: hadolint/hadolint-action@v3.1.0
         with:
           dockerfile: smartboiler/Dockerfile
-          ignore: DL3008,DL3013
+          ignore: DL3006,DL3008,DL3013

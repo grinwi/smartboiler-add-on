@@ -40,7 +40,7 @@ jobs:
 
       - name: Update smartboiler pin in requirements.txt
         run: |
-          sed -i "s|^smartboiler.*|smartboiler==${{ steps.resolve.outputs.version }}|" smartboiler/requirements.txt
+          sed -i "s|^smartboiler @ git+.*|smartboiler @ git+https://github.com/grinwi/smartboiler.git@v${{ steps.resolve.outputs.version }}|" smartboiler/requirements.txt
 
       - name: Update version in config.yaml
         run: |
