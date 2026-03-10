@@ -18,9 +18,9 @@ RUN apt-get update \
         python3-pip \
         python3-dev \
         build-essential \
+        git \
     && pip3 install --no-cache-dir -r requirements.txt \
     && apt-get purge -y --auto-remove \
-        python3-pip \
         python3-dev \
         build-essential \
     && rm -rf /var/lib/apt/lists/*
