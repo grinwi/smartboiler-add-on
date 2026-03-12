@@ -33,7 +33,11 @@ options:
   boiler_direct_tmp_entity_id: empty
   # Level 3 (fallback): external case temperature sensor
   boiler_case_tmp_entity_id: empty
-  boiler_case_max_tmp: 40
+  # Optional: temperature sensor in the boiler room / garage.
+  # If set, the thermal model uses live readings instead of the static
+  # average_boiler_surroundings_temp value.  Important when the boiler is
+  # in an unheated space where ambient varies seasonally.
+  boiler_area_tmp_entity_id: empty
 
   # Water consumption sensors (optional, improve accuracy)
   boiler_water_flow_entity_id: empty
@@ -71,6 +75,14 @@ options:
   # Minimum days of data required before ML predictions are used
   min_training_days: 30
 
+  # ── Thermal model (case-sensor estimation) ────────────────────────────
+  # Rolling window for re-fitting the cooling model [days].
+  # Shorter = adapts faster to seasonal changes; longer = more stable fit.
+  thermal_model_window_days: 7
+  # k_water / k_case ratio.  Water cools ~3-5× slower than the case shell
+  # due to higher thermal mass.  Tune if you have a direct sensor to verify.
+  thermal_mass_ratio: 0.3
+
   # ── System ────────────────────────────────────────────────────────────
   logging_level: INFO
 
@@ -79,7 +91,7 @@ schema:
   boiler_power_entity_id: str
   boiler_direct_tmp_entity_id: str
   boiler_case_tmp_entity_id: str
-  boiler_case_max_tmp: int(1,)
+  boiler_area_tmp_entity_id: str
   boiler_water_flow_entity_id: str
   boiler_water_temp_entity_id: str
   boiler_volume: int(1,)
@@ -95,4 +107,6 @@ schema:
   hdo_explicit_schedule: str
   prediction_conservatism: list(low|medium|high)
   min_training_days: int(1,)
+  thermal_model_window_days: int(1,)
+  thermal_mass_ratio: float(0.05,1.0)
   logging_level: list(DEBUG|INFO|WARNING|ERROR)
