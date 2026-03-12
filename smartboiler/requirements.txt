@@ -1,4 +1,5 @@
 flask>=3.0.0
+influxdb>=5.3
 numpy>=1.24
 pandas>=2.0
 pytz

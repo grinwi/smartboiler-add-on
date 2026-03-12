@@ -83,6 +83,30 @@ options:
   # due to higher thermal mass.  Tune if you have a direct sensor to verify.
   thermal_mass_ratio: 0.3
 
+  # ── InfluxDB cold-start bootstrap (optional) ──────────────────────────
+  # If you have HA's InfluxDB integration running, the add-on can import all
+  # historical data on first startup instead of waiting 30 days to warm up.
+  # Leave influxdb_host empty to disable.
+  influxdb_host: empty
+  influxdb_port: 8086
+  influxdb_db: homeassistant
+  influxdb_username: empty
+  influxdb_password: empty
+  # Entity IDs as they appear in InfluxDB (usually same as HA entity IDs)
+  influxdb_relay_entity_id: empty
+  influxdb_flow_entity_id: empty
+  influxdb_water_temp_entity_id: empty
+  influxdb_case_tmp_entity_id: empty
+  influxdb_power_entity_id: empty
+  # InfluxDB measurement names — match HA defaults unless you changed them
+  influxdb_measurement_temp: "°C"
+  influxdb_measurement_flow: "L/min"
+  influxdb_measurement_power: W
+  influxdb_measurement_state: state
+  # How far back to import (or use influxdb_start_date for a fixed date)
+  influxdb_history_years: 2
+  influxdb_start_date: empty
+
   # ── System ────────────────────────────────────────────────────────────
   logging_level: INFO
 
@@ -109,4 +133,20 @@ schema:
   min_training_days: int(1,)
   thermal_model_window_days: int(1,)
   thermal_mass_ratio: float(0.05,1.0)
+  influxdb_host: str
+  influxdb_port: int(1,65535)
+  influxdb_db: str
+  influxdb_username: str
+  influxdb_password: str
+  influxdb_relay_entity_id: str
+  influxdb_flow_entity_id: str
+  influxdb_water_temp_entity_id: str
+  influxdb_case_tmp_entity_id: str
+  influxdb_power_entity_id: str
+  influxdb_measurement_temp: str
+  influxdb_measurement_flow: str
+  influxdb_measurement_power: str
+  influxdb_measurement_state: str
+  influxdb_history_years: int(1,10)
+  influxdb_start_date: str
   logging_level: list(DEBUG|INFO|WARNING|ERROR)
