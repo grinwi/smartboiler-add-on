@@ -8,12 +8,11 @@ arch:
   - aarch64
   - amd64
 init: false
-map:
-  - share:rw
-  - homeassistant_config:rw
 hassio_api: true
 image: "ghcr.io/grinwi/image-{arch}-smartboiler-add-on"
-hassio_role: admin
+# Minimum privilege: read entity states + call switch/homeassistant services.
+# "admin" is not needed and would grant full HA admin access.
+hassio_role: homeassistant
 homeassistant_api: true
 ingress: true
 environment:
