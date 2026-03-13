@@ -63,9 +63,8 @@ options:
   spot_price_region: CZ
 
   # ── HDO (ripple control) ──────────────────────────────────────────────
-  hdo: false
   # Optional: explicit blocked hours string, e.g. "22:00-06:00,13:00-15:00"
-  # Leave empty to use auto-detection from power sensor
+  # Leave empty to let the add-on auto-detect HDO from relay "unavailable" state
   hdo_explicit_schedule: empty
 
   # ── Prediction / scheduling ───────────────────────────────────────────
@@ -106,6 +105,18 @@ options:
   influxdb_history_years: 2
   influxdb_start_date: empty
 
+  # ── Google Calendar integration (optional) ───────────────────────────
+  # Set to the HA calendar entity ID (e.g. calendar.google_smartboiler).
+  # The add-on will recognise events whose titles contain keywords:
+  #   vacation / holiday / dovolena  → reduce heating
+  #   off / boiler off              → relay off (legionella still applies)
+  #   boost / boost 65             → force-heat to set_tmp or specific temp
+  calendar_entity_id: empty
+  # What to do during a 'vacation' event: min_temp (heat to vacation_min_temp) or off
+  vacation_mode: min_temp
+  # Temperature to maintain during vacation events (only used when vacation_mode=min_temp)
+  vacation_min_temp: 30
+
   # ── System ────────────────────────────────────────────────────────────
   logging_level: INFO
 
@@ -121,12 +132,11 @@ schema:
   boiler_set_tmp: int(1,)
   boiler_min_operation_tmp: int(1,)
   boiler_watt_power: int(1,)
-  average_boiler_surroundings_temp: int(1,)
+  average_boiler_surroundings_temp: int(-30,)
   person_entity_ids: str
   pv_surplus_entity_id: str
   has_spot_price: bool
   spot_price_region: list(CZ|SK|AT|DE|PL|HU|FR|IT|ES)
-  hdo: bool
   hdo_explicit_schedule: str
   prediction_conservatism: list(low|medium|high)
   min_training_days: int(1,)
@@ -148,4 +158,7 @@ schema:
   influxdb_measurement_state: str
   influxdb_history_years: int(1,10)
   influxdb_start_date: str
+  calendar_entity_id: str
+  vacation_mode: list(min_temp|off)
+  vacation_min_temp: int(1,)
   logging_level: list(DEBUG|INFO|WARNING|ERROR)
