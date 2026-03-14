@@ -36,6 +36,13 @@ jobs:
           else
             VERSION="${{ inputs.version }}"
           fi
+          # HA add-on versions must be exactly 3-part semver (X.Y.Z).
+          # A 4-part version (e.g. 1.3.1.1) causes HA to reject the config.yaml
+          # and mark the add-on as "removed from repository".
+          if ! echo "${VERSION}" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "ERROR: version '${VERSION}' is not valid 3-part semver (X.Y.Z). Aborting."
+            exit 1
+          fi
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
 
       - name: Update smartboiler pin in requirements.txt
