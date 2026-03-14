@@ -132,7 +132,7 @@ schema:
   boiler_set_tmp: int(1,)
   boiler_min_operation_tmp: int(1,)
   boiler_watt_power: int(1,)
-  average_boiler_surroundings_temp: int(-30,)
+  average_boiler_surroundings_temp: int
   person_entity_ids: str
   pv_surplus_entity_id: str
   has_spot_price: bool
