@@ -99,7 +99,7 @@ jobs:
           EOF
 
       - name: Lint Dockerfile (hadolint)
-        uses: hadolint/hadolint-action@v3.1.0
+        uses: hadolint/hadolint-action@v3.3.0
         with:
           dockerfile: smartboiler/Dockerfile
           ignore: DL3008,DL3013
