@@ -21,7 +21,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout using PAT so the push triggers downstream workflows
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           # GITHUB_TOKEN pushes are blocked from triggering other workflows.
           # A PAT push is treated as a regular user push and fires validate + build.
@@ -72,7 +72,7 @@ jobs:
     needs: update-versions
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           # Checkout the commit that was just pushed
           ref: main
