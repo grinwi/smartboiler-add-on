@@ -32,6 +32,10 @@ options:
   boiler_direct_tmp_entity_id: empty
   # Level 3 (fallback): external case temperature sensor
   boiler_case_tmp_entity_id: empty
+  # Simple Mode: cold-water inlet probe — used as live T_cold for energy balance
+  boiler_inlet_tmp_entity_id: empty
+  # Simple Mode: hot-water output pipe probe — display only, not used in energy balance
+  boiler_outlet_tmp_entity_id: empty
   # Optional: temperature sensor in the boiler room / garage.
   # If set, the thermal model uses live readings instead of the static
   # average_boiler_surroundings_temp value.  Important when the boiler is
@@ -72,6 +76,40 @@ options:
   prediction_conservatism: medium
   # Minimum days of data required before ML predictions are used
   min_training_days: 30
+  # How often to re-import InfluxDB history and retrain the predictor [weeks]
+  predictor_retrain_weeks: 4
+
+  # ── Operation mode ────────────────────────────────────────────────────
+  # standard: full mode — uses flow sensor + water-temp sensor if available;
+  #           direct NTC probe preferred for T_water estimation.
+  # simple:   no flow sensor — Shelly 1PM only.
+  #           Uses three Shelly temperature probes:
+  #             boiler_case_tmp_entity_id   — boiler case (T_case, required)
+  #             boiler_inlet_tmp_entity_id  — cold-water inlet pipe (T_in, recommended)
+  #             boiler_outlet_tmp_entity_id — hot-water output pipe (T_out, optional/display)
+  #           Consumption estimated via energy-balance:
+  #             T_water = T_amb + (T_case − T_amb) / coupling
+  #             est_L   = kWh_net / (Cp × (T_water − T_cold))
+  #           T_cold is updated daily from live T_in readings (if probe present).
+  #           Validated in analysis/simple_mode_analysis.ipynb.
+  operation_mode: standard
+
+  # ── Simple Mode physics parameters ───────────────────────────────────
+  # Cold water inlet temperature [°C].  Used in Simple Mode energy balance.
+  # Typical: 8–12°C in Central Europe.
+  cold_water_temp: 10
+
+  # Coupling ratio: T_case ≈ T_amb + coupling × (T_water − T_amb).
+  # Used to calibrate T_set from the case sensor at relay-OFF transitions.
+  # Typical range: 0.30 (heavily insulated) – 0.60 (bare metal case).
+  thermal_coupling_ratio: 0.45
+
+  # Standby heat-loss power [W].  Used in Simple Mode when the thermal model
+  # has not yet fitted k_water.  Typical: 40–80 W for a 100 L insulated tank.
+  boiler_standby_watts: 50
+  # Minimum T_case drop per 60 s tick [°C] to count as a hot-water draw.
+  # Lower = more sensitive; raise if ambient drafts trigger false positives.
+  draw_detection_threshold_c: 2.0
 
   # ── Thermal model (case-sensor estimation) ────────────────────────────
   # Rolling window for re-fitting the cooling model [days].
@@ -95,6 +133,7 @@ options:
   influxdb_flow_entity_id: empty
   influxdb_water_temp_entity_id: empty
   influxdb_case_tmp_entity_id: empty
+  influxdb_inlet_tmp_entity_id: empty
   influxdb_power_entity_id: empty
   # InfluxDB measurement names — match HA defaults unless you changed them
   influxdb_measurement_temp: "°C"
@@ -125,6 +164,8 @@ schema:
   boiler_power_entity_id: str
   boiler_direct_tmp_entity_id: str
   boiler_case_tmp_entity_id: str
+  boiler_inlet_tmp_entity_id: str
+  boiler_outlet_tmp_entity_id: str
   boiler_area_tmp_entity_id: str
   boiler_water_flow_entity_id: str
   boiler_water_temp_entity_id: str
@@ -138,8 +179,14 @@ schema:
   has_spot_price: bool
   spot_price_region: list(CZ|SK|AT|DE|PL|HU|FR|IT|ES)
   hdo_explicit_schedule: str
+  operation_mode: list(standard|simple)
+  cold_water_temp: int(-10,30)
+  thermal_coupling_ratio: float(0.1,1.0)
+  boiler_standby_watts: int(1,)
+  draw_detection_threshold_c: float(0.1,10.0)
   prediction_conservatism: list(low|medium|high)
   min_training_days: int(1,)
+  predictor_retrain_weeks: int(1,)
   thermal_model_window_days: int(1,)
   thermal_mass_ratio: float(0.05,1.0)
   influxdb_host: str
@@ -151,6 +198,7 @@ schema:
   influxdb_flow_entity_id: str
   influxdb_water_temp_entity_id: str
   influxdb_case_tmp_entity_id: str
+  influxdb_inlet_tmp_entity_id: str
   influxdb_power_entity_id: str
   influxdb_measurement_temp: str
   influxdb_measurement_flow: str
