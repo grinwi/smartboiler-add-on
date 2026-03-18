@@ -180,7 +180,7 @@ schema:
   spot_price_region: list(CZ|SK|AT|DE|PL|HU|FR|IT|ES)
   hdo_explicit_schedule: str
   operation_mode: list(standard|simple)
-  cold_water_temp: int(-10,30)
+  cold_water_temp: int
   thermal_coupling_ratio: float(0.1,1.0)
   boiler_standby_watts: int(1,)
   draw_detection_threshold_c: float(0.1,10.0)
