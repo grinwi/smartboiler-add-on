@@ -1,9 +1,5 @@
 name: Builder
 
-env:
-  BUILD_ARGS: "--test"
-  MONITORED_FILES: "build.yaml config.yaml Dockerfile requirements.txt rootfs"
-
 on:
   push:
     branches:
@@ -14,98 +10,57 @@ on:
   workflow_dispatch:
 
 jobs:
-  init:
-    runs-on: ubuntu-latest
-    name: Initialize builds
-    outputs:
-      changed_addons: ${{ steps.changed_addons.outputs.addons }}
-      changed: ${{ steps.changed_addons.outputs.changed }}
-    steps:
-      - name: Check out the repository
-        uses: actions/checkout@v6
-
-      - name: Get changed files
-        id: changed_files
-        uses: jitterbit/get-changed-files@v1
-
-      - name: Find add-on directories
-        id: addons
-        uses: home-assistant/actions/helpers/find-addons@master
-
-      - name: Get changed add-ons
-        id: changed_addons
-        run: |
-          declare -a changed_addons
-          for addon in ${{ steps.addons.outputs.addons }}; do
-            if [[ "${{ steps.changed_files.outputs.all }}" =~ $addon ]]; then
-              for file in ${{ env.MONITORED_FILES }}; do
-                  if [[ "${{ steps.changed_files.outputs.all }}" =~ $addon/$file ]]; then
-                    if [[ ! "${changed_addons[@]}" =~ $addon ]]; then
-                      changed_addons+=("\"${addon}\",");
-                    fi
-                  fi
-              done
-            fi
-          done
-
-          changed=$(echo ${changed_addons[@]} | rev | cut -c 2- | rev)
-
-          if [[ -n ${changed} ]]; then
-            echo "Changed add-ons: $changed";
-            echo "changed=true" >> $GITHUB_OUTPUT;
-            echo "addons=[$changed]" >> $GITHUB_OUTPUT;
-          else
-            echo "No add-on had any monitored files changed (${{ env.MONITORED_FILES }})";
-          fi
   build:
-    needs: init
     runs-on: ubuntu-latest
-    if: needs.init.outputs.changed == 'true'
-    name: Build ${{ matrix.arch }} ${{ matrix.addon }} add-on
+    name: Build ${{ matrix.arch }} smartboiler add-on
     strategy:
       matrix:
-        addon: ${{ fromJson(needs.init.outputs.changed_addons) }}
-        arch: ["aarch64", "amd64"]
+        include:
+          - arch: amd64
+            platform: linux/amd64
+          - arch: aarch64
+            platform: linux/arm64
+
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
 
-      - name: Get information
-        id: info
-        uses: home-assistant/actions/helpers/info@master
-        with:
-          path: "./${{ matrix.addon }}"
-
-      - name: Check if add-on should be built
-        id: check
+      - name: Get add-on version and base image
+        id: meta
         run: |
-          if [[ "${{ steps.info.outputs.architectures }}" =~ ${{ matrix.arch }} ]]; then
-             echo "build_arch=true" >> $GITHUB_OUTPUT;
-             echo "image=$(echo ${{ steps.info.outputs.image }} | cut -d'/' -f3)" >> $GITHUB_OUTPUT;
-             if [[ -z "${{ github.head_ref }}" ]] && [[ "${{ github.event_name }}" == "push" ]]; then
-                 echo "BUILD_ARGS=" >> $GITHUB_ENV;
-             fi
-           else
-             echo "${{ matrix.arch }} is not a valid arch for ${{ matrix.addon }}, skipping build";
-             echo "build_arch=false" >> $GITHUB_OUTPUT;
-          fi
+          VERSION=$(python3 -c "import yaml; print(yaml.safe_load(open('smartboiler/config.yaml'))['version'])")
+          BUILD_FROM=$(python3 -c "import yaml; print(yaml.safe_load(open('smartboiler/build.yaml'))['build_from']['${{ matrix.arch }}'])")
+          TEMPIO_VERSION=$(python3 -c "import yaml; print(yaml.safe_load(open('smartboiler/build.yaml'))['args']['TEMPIO_VERSION'])")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "build_from=$BUILD_FROM" >> $GITHUB_OUTPUT
+          echo "tempio_version=$TEMPIO_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: Login to GitHub Container Registry
-        if: env.BUILD_ARGS != '--test'
-        uses: docker/login-action@v4.0.0
+        if: github.event_name != 'pull_request'
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build ${{ matrix.addon }} add-on
-        if: steps.check.outputs.build_arch == 'true'
-        uses: home-assistant/builder@master
+      - name: Build and push
+        uses: docker/build-push-action@v6
         with:
-          args: |
-            ${{ env.BUILD_ARGS }} \
-            --${{ matrix.arch }} \
-            --target /data/${{ matrix.addon }} \
-            --image "${{ steps.check.outputs.image }}" \
-            --docker-hub "ghcr.io/${{ github.repository_owner }}" \
-            --addon
+          context: ./smartboiler
+          platforms: ${{ matrix.platform }}
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: |
+            ghcr.io/${{ github.repository_owner }}/image-${{ matrix.arch }}-smartboiler-add-on:${{ steps.meta.outputs.version }}
+            ghcr.io/${{ github.repository_owner }}/image-${{ matrix.arch }}-smartboiler-add-on:latest
+          build-args: |
+            BUILD_FROM=${{ steps.meta.outputs.build_from }}
+            BUILD_ARCH=${{ matrix.arch }}
+            TEMPIO_VERSION=${{ steps.meta.outputs.tempio_version }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
