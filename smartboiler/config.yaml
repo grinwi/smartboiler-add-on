@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Smart Boiler add-on
-version: "1.5.4"
+version: "1.5.5"
 slug: smartboiler
 description: Intelligent water heating management with rolling histogram prediction, spot price integration, and greedy scheduling
 url: "https://github.com/grinwi/smartboiler-add-on"
