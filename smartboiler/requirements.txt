@@ -6,4 +6,4 @@ pytz
 requests>=2.31
 # Installed from the tagged git release — no PyPI propagation delay.
 # update-and-build.yml updates the @v<tag> on each library release.
-smartboiler @ git+https://github.com/grinwi/smartboiler.git@v1.5.6
+smartboiler @ git+https://github.com/grinwi/smartboiler.git@v1.5.7
