@@ -181,6 +181,40 @@ Config file gets a `schema_version` and a `devices: [...]` list; the current fla
 
 ---
 
+## 4a. User interface
+
+Visual mock-up (three screens, sample data): <https://claude.ai/artifact/JeJAMGujpUksfVSv4e4aLu>
+(private link — the owner must share it for others to open it).
+
+The UI answers three questions, in this order: **what is happening now, why, and was it worth it.**
+
+| Screen | Content |
+|--------|---------|
+| **Now** | One plain-language sentence at the top ("The sun is running the whole house…"). Three numbers: saved today, own solar used, price now. **Animated energy flow**: sources (solar, grid, battery) → house → devices; dashes move in the flow direction, faster = more power, grey = idle. One card per device: main value, comfort band bar, state, a one-line **"Why"**, `Off / Watch / Auto` switch and `Boost`. 24-hour plan strip: price, solar forecast, one row per device coloured by energy source, paused hours outlined. Two lists: "What it did and why", "Coming up". |
+| **Statistics** | Day / Week / Month / Year. Saved vs. "no control" baseline, paid, self-consumption, self-sufficiency, comfort kept. Daily cost bars (baseline vs. paid). Per-device energy mix (solar / battery / grid). Learned hot-water habit heat map. "How well it knows your home": every learned parameter with its value and a confidence bar. |
+| **Phone** | Same "Now" content in one column with a bottom tab bar; this is what HA's mobile app shows through ingress. |
+
+Rules for the implementer:
+
+- **Every state shown has a reason next to it.** The `reason` string from `FlexDevice.apply()` (§3.2) is the single source
+  for the device card, the decision log and the HA sensor attribute.
+- **Sentence first, numbers second.** The headline is generated from the same state (who supplies, who consumes,
+  what changes next); it is the feature non-technical household members will read.
+- **Animation only carries information**: flow direction and magnitude, "live" pulse, active-heating shimmer,
+  bars growing on load. Everything is CSS-only and switched off under `prefers-reduced-motion`.
+- **Colour = energy source**, consistently on every screen: amber solar, blue grid, teal battery; coral outline = paused/blocked.
+  Never colour alone: each state also has a text label.
+- **Tech**: keep Flask + server-rendered template + one small vanilla JS file polling `/api/state` every 5–10 s
+  (or Server-Sent Events). No SPA framework, no build step. Charts are plain `div`/SVG bars as in the mock-up,
+  so the existing Chart.js CDN dependency can go — the add-on then works without internet access.
+- **Light and dark**: the mock-up is dark; define all colours as CSS variables and follow the HA theme
+  (`prefers-color-scheme`) so a light variant is a second variable block.
+- **Diagnostics move out of the way.** The current thermal-model, calibration and HDO tabs are valuable for debugging;
+  keep them under `Settings → Diagnostics`, not on the main screen.
+- **Language**: all UI strings through one dictionary (`en`, `cs` first).
+
+---
+
 ## 5. Roadmap
 
 Each phase is shippable alone and useful alone.
