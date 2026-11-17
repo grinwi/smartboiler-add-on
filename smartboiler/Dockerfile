@@ -13,6 +13,8 @@ WORKDIR /usr/src
 
 COPY requirements.txt /usr/src/requirements.txt
 
+# Debian 12 marks the system Python as externally managed (PEP 668). This
+# container runs only SmartBoiler, so installing into it directly is fine.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         python3 \
@@ -20,7 +22,7 @@ RUN apt-get update \
         python3-dev \
         build-essential \
         git \
-    && pip3 install --no-cache-dir -r requirements.txt \
+    && pip3 install --no-cache-dir --break-system-packages -r requirements.txt \
     && apt-get purge -y --auto-remove \
         python3-dev \
         build-essential \
